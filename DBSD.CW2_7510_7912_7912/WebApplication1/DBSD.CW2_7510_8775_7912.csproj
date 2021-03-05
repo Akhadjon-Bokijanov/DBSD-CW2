@@ -133,6 +133,7 @@
     <Compile Include="DAL\ItemManager.cs" />
     <Compile Include="DAL\EmployeeManager.cs" />
     <Compile Include="DAL\ItemTransactionManager.cs" />
+    <Compile Include="DAL\ItemTransactionListManager.cs" />
     <Compile Include="DAL\SupplierManager.cs" />
     <Compile Include="DAL\StoreManager.cs" />
     <Compile Include="DAL\UnitManager.cs" />
@@ -221,10 +222,14 @@
     <Content Include="Views\ItemTransaction\Details.cshtml" />
     <Content Include="Views\ItemTransaction\Index.cshtml" />
     <Content Include="Views\ItemTransaction\Delete.cshtml" />
+    <Content Include="Views\ItemTransactionList\Edit.cshtml" />
+    <Content Include="Views\ItemTransactionList\Create.cshtml" />
+    <Content Include="Views\ItemTransactionList\Index.cshtml" />
+    <Content Include="Views\ItemTransactionList\Delete.cshtml" />
+    <Content Include="Views\ItemTransactionList\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ItemTransactionList\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

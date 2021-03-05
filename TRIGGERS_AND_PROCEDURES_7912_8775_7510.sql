@@ -80,7 +80,7 @@ AS
 		st.Name as "StoreName", 
 		sup.Name as "SupplierName",
 		u.Name as UnitName,
-		COUNT(trl.TransactionListId) OVER(PARTITION BY i.ItemId) as "TransactionCount",
+		COUNT(trl.ItemTransactionListId) OVER(PARTITION BY i.ItemId) as "TransactionCount",
 		COUNT(ipc.ChildId) OVER (PARTITION BY i.ItemId) as "NumParent",
 		AVG(ipc.ChildAmount) OVER (PARTITION BY i.ItemId) as "AvgAmountUsagePerParent"
 	FROM Item i
@@ -482,21 +482,27 @@ exec SP_ItemTransaction_All_Select;
 -- --DROP PROCEDURE SP_Role_Add;
 
 --CREATE PROCEDURE FOR INSERTING ROLE
-CREATE PROCEDURE SP_ItemTransactionList_Add(@Name varchar(500))
+CREATE PROCEDURE SP_ItemTransactionList_Add(
+	@ItemTransactionId int,
+	@ItemId int,
+	@Amount decimal
+)
 AS 
 	BEGIN 
-		INSERT INTO ItemTransactionList (Name) VALUES(@Name);
+		INSERT INTO ItemTransactionList (ItemTransactionId, ItemId, Amount) 
+		VALUES(@ItemTransactionId, @ItemId, @Amount);
 	END
 
 --DROP SELECT one ItemTransactionList PROCEDURE
--- --DROP PROCEDURE SP_ItemTransactionList_One_Select;
+--DROP PROCEDURE SP_ItemTransactionList_One_Select;
 --SELECT ItemTransactionList PROCUDURE 
 CREATE PROCEDURE SP_ItemTransactionList_One_Select(@ItemTransactionListId int)
 AS 
 	BEGIN 
-		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName FROM ItemTransactionList tl
+		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName, it.Notes, it.Operation FROM ItemTransactionList tl
 		INNER JOIN Item i ON i.ItemId=tl.ItemId
 		INNER JOIN Unit u ON i.UnitId = u.UnitId
+		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionListId 
 		WHERE ItemTransactionListId=@ItemTransactionListId;
 	END
 
@@ -528,14 +534,15 @@ AS
 	END
 	
 --DROP SELECT ALL ItemTransactionList PROCEDURE
--- --DROP PROCEDURE SP_ItemTransactionList_All_Select;
+DROP PROCEDURE SP_ItemTransactionList_All_Select;
 --SELECT ItemTransactionListS PROCUDURE 
 CREATE PROCEDURE SP_ItemTransactionList_All_Select
 AS 
 	BEGIN 
-		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName FROM ItemTransactionList tl
+		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName, it.Notes, it.Operation FROM ItemTransactionList tl
 		INNER JOIN Item i ON i.ItemId=tl.ItemId
 		INNER JOIN Unit u ON i.UnitId = u.UnitId
+		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionListId 
 		;
 	END
 

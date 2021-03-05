@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DBSD_CW2_7510_8775_7912.DAL;
+using DBSD_CW2_7510_8775_7912.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,13 +13,16 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: ItemTransactionList
         public ActionResult Index()
         {
-            return View();
+            var tl = new ItemTransactionListManager();
+            return View(tl.GetAll());
         }
 
         // GET: ItemTransactionList/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var tl = new ItemTransactionListManager();
+
+            return View(tl.GetOne(id));
         }
 
         // GET: ItemTransactionList/Create
@@ -28,11 +33,15 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
 
         // POST: ItemTransactionList/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ItemTransactionList collection)
         {
             try
             {
                 // TODO: Add insert logic here
+
+                var tl = new ItemTransactionListManager();
+
+                tl.Create(collection);
 
                 return RedirectToAction("Index");
             }
@@ -45,21 +54,28 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: ItemTransactionList/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var tl = new ItemTransactionListManager();
+
+            return View(tl.GetOne(id));
         }
 
         // POST: ItemTransactionList/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, ItemTransactionList collection)
         {
             try
             {
                 // TODO: Add update logic here
 
+                var tl = new ItemTransactionListManager();
+
+                tl.Update(id, collection);
+
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                throw ex;
                 return View();
             }
         }
@@ -77,7 +93,8 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                var tl = new ItemTransactionListManager();
+                tl.Delete(id);
                 return RedirectToAction("Index");
             }
             catch
