@@ -1,0 +1,92 @@
+﻿@model DBSD_CW2_7510_8775_7912.Models.Item
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LocalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GlobalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GlobalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemUID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemUID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsageStartedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsageStartedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsEchangeble)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsEchangeble)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MadeOf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MadeOf)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DBSD_CW2_7510_8775_7912.Models.ItemTransaction>
+
+<p style="margin-top: 10px"> 
+    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemTransactionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Operation)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemTransactionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Operation)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ItemTransactionId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ItemTransactionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ItemTransactionId })
+        </td>
+    </tr>
+}
+
+</table>

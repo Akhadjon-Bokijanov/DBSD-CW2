@@ -1,0 +1,152 @@
+﻿@model IEnumerable<DBSD_CW2_7510_8775_7912.Models.Item>
+
+<p style="margin-top: 10px">
+    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"})
+</p>
+
+<form class="form-group" action="/Item" method="get" id="item-form-filter">
+ 
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" name="LocalName" value="@ViewBag.Filter.LocalName" placeholder="Local name" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="GlobalName" value="@ViewBag.Filter.GlobalName" placeholder="Global name" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="ItemUID" value="@ViewBag.Filter.ItemUID" placeholder="Item UID" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="MadeOf" value="@ViewBag.Filter.MadeOf" placeholder="Made of" class="form-control" />
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+        <div class="col-md-3">
+            <div class="input-group" style="display: flex">
+                <input type="text" name="PageNumber" value="@ViewBag.Filter.PageNumber" placeholder="Page num." class="form-control" />
+
+                <input type="text" name="PageSize" value="@ViewBag.Filter.PageSize" placeholder="Page size" class="form-control" />
+
+            </div>
+            <small style="margin-right: 55px">Page number</small>
+            <small>Page size</small>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group" style="display:flex">
+                <input type="text" name="SupplierName" value="@ViewBag.Filter.SupplierName" placeholder="Supplier name" class="form-control" />
+                <input type="text" name="StoreName" value="@ViewBag.Filter.StoreName" placeholder="Store name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group" style="display: flex">
+                <select style="width: 70%" class="form-control" name="SortIndex" value="@ViewBag.Filter.SortIndex">
+                    <option value=1>Is exchangable</option>
+                    <option value=2>Usage started at</option>
+                    <option value=3>Supplier name</option>
+                    <option value=4>Store name</option>
+                    <option value=5>Item UID</option>
+                </select>
+                <select style="width: 30%" name="SortCase" class="form-control" value="@ViewBag.Filter.SortCase">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="btn-group">
+                <button class="btn btn-primary" style="width: 130px" type="submit">Filter</button>
+                <button class="btn btn-danger" style="width: 130px" type="reset" >Reset</button>
+            </div>
+        </div>
+    </div>
+          
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LocalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GlobalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemUID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.Unit.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsageStartedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEchangeble)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MadeOf)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumParent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvgAmountUsagePerParent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model =>model.Store.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.LocalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GlobalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ItemUID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Unit.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UsageStartedAt)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsEchangeble)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MadeOf)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TransactionCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NumParent)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AvgAmountUsagePerParent)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Store.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Supplier.Name)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ItemId }, new { @class="btn btn-sm btn-primary"}) 
+        @Html.ActionLink("Details", "Details", new { id = item.ItemId }, new { @class="btn btn-sm btn-success" }) 
+        @Html.ActionLink("Delete", "Delete", new { id = item.ItemId }, new { @class = "btn btn-sm btn-danger"})
+    </td>
+</tr>
+}
+
+</table>
