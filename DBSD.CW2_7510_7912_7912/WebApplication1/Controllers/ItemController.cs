@@ -25,10 +25,10 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: Item/Details/5
         public ActionResult Details(int id)
         {
+
+            var b = new ItemManager();
            
-            Item b = new Item();
-           
-            return View(b);
+            return View(b.GetOne(id));
         }
 
         // GET: Item/Create
@@ -78,7 +78,8 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: Item/Edit/5
         public ActionResult Edit(int id)
         {
-            Item b = new Item();
+            var b = new ItemManager();
+
             var i = new UnitManager();
             ViewBag.Units = new SelectList(i.GetAll(), "UnitId", "Name");
 
@@ -88,16 +89,29 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
             var st = new StoreManager();
             ViewBag.Stores = new SelectList(st.GetAll(), "StoreId", "Name");
 
-            return View(b);
+            return View(b.GetOne(id));
         }
 
         // POST: Item/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Item collection, HttpPostedFileBase img)
         {
             try
             {
                 // TODO: Add update logic here
+
+                if (img?.ContentLength > 0)
+                {
+                    using (var memory = new MemoryStream())
+                    {
+                        img.InputStream.CopyTo(memory);
+                        collection.Image = memory.ToArray();
+                    }
+                }
+
+                var b = new ItemManager();
+
+                b.Update(id, collection);
 
                 return RedirectToAction("Index");
             }

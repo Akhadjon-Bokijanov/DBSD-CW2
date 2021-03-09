@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DBSD_CW2_7510_8775_7912.Models.ItemBind>
+
+<p style="margin-top: 10px">
+    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Parent.LocalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parent.GlobalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parent.Unit.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Child.LocalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Child.GlobalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Child.Unit.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChildAmount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Parent.LocalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Parent.GlobalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Parent.Unit.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Child.LocalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Child.GlobalName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Child.Unit.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ChildAmount)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ItemBindId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ItemBindId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ItemBindId })
+    </td>
+</tr>
+}
+
+</table>

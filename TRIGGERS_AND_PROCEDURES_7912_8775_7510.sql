@@ -1,6 +1,77 @@
 --TRIGGERS AND PROCEDURES
 use [DBSD_CW2_7510_8775_7912] EXEC sp_changedbowner 'sa';
 
+--DELETE ITEM PROCEDURE
+
+CREATE PROCEDURE SP_Item_Delete(
+	@ItemId int
+)
+AS 
+	BEGIN
+		DELETE FROM Item WHERE ItemId=@ItemId;
+		DELETE FROM ItemTransactionList WHERE ItemId=@ItemId;
+	END
+
+--END DELETE ITEM PROCEDURE
+
+--SELECT ONE ITEM
+
+CREATE PROCEDURE SP_Item_Select_One(
+@ItemId int
+)
+AS 
+	BEGIN
+		SELECT 
+		i.*, 
+		st.Name as "StoreName", 
+		sup.Name as "SupplierName",
+		u.Name as UnitName,
+		COUNT(trl.ItemTransactionListId) OVER(PARTITION BY i.ItemId) as "TransactionCount",
+		COUNT(ipc.ChildId) OVER (PARTITION BY i.ItemId) as "NumParent",
+		AVG(ipc.ChildAmount) OVER (PARTITION BY i.ItemId) as "AvgAmountUsagePerParent"
+		FROM Item i
+		INNER JOIN Unit u ON i.UnitId = u.UnitId
+		INNER JOIN Store st ON i.StoreId = st.StoreId
+		INNER JOIN Supplier sup ON i.SupplierId = sup.SupplierId
+		--EVEN IF THERE IS NOT TRANSACTIONS OR PARENT CHILD BINDED Item Should be Selected
+
+		LEFT JOIN ItemTransactionList trl ON trl.ItemId = i.ItemId
+		LEFT JOIN ItemParentChildBind ipc ON ipc.ChildId = i.ItemId
+		
+		WHERE i.ItemId = @ItemId
+	END
+
+--END SELECT ONE ITEM
+
+CREATE PROCEDURE SP_Item_Update(
+	@ItemId int,
+	@GlobalName varchar(500),
+	@LocalName varchar(500),
+	@UnitId int,
+	@StoreId int,
+	@MadeOf varchar(500),
+	@SupplierId int,
+	@UsageStartedAt datetime,
+	@Image varbinary(max),
+	@IsEchangeble bit,
+	@ItemUID int
+)
+AS 
+	BEGIN
+		UPDATE Item SET
+		GlobalName =@GlobalName,
+		LocalName=@LocalName,
+		UnitId=@UnitId,
+		StoreId=@StoreId,
+		MadeOf=@MadeOf,
+		SupplierId=@SupplierId,
+		UsageStartedAt=@UsageStartedAt,
+		Image=@Image,
+		IsEchangeble=@IsEchangeble,
+		ItemUID=@ItemUID
+		WHERE ItemId=@ItemId
+	END
+
 --CREATE ITEM PROCEDURE
 CREATE PROCEDURE SP_Item_Add(
 	@GlobalName varchar(500),
@@ -551,3 +622,107 @@ AS
 exec SP_ItemTransactionList_All_Select;
 ---### ItemTransactionList procedures END ###---
 
+
+---### ItemParentChildBind procedures START ###---
+--DROP SP_ItemParentChildBind_Add PROCEDURE
+-- --DROP PROCEDURE SP_ItemParentChildBind_Add;
+
+--CREATE PROCEDURE FOR INSERTING ItemParentChildBind
+CREATE PROCEDURE SP_ItemBind_Add(
+	@ParentId int,
+	@ChildId int,
+	@ChildAmount decimal
+)
+AS 
+	BEGIN 
+		INSERT INTO ItemParentChildBind (
+			ParentId,
+			ChildId,
+			ChildAmount) 
+		VALUES(
+			@ParentId,
+			@ChildId,
+			@ChildAmount
+		);
+	END
+
+--DROP SELECT one ItemBind PROCEDURE
+DROP PROCEDURE SP_ItemBind_One_Select;
+--SELECT ItemBind PROCUDURE 
+CREATE PROCEDURE SP_ItemBind_One_Select(@ItemBindId int)
+AS 
+	BEGIN 
+		SELECT 
+			ib.ItemBindId,
+			ch.ItemId as ChildItemId,
+			ch.GlobalName as  ChildGlobalName,
+			ch.LocalName as ChildLocalName,
+			ch.MadeOf as ChildMadeOf,
+			chu.Name as ChildUnit,
+			p.GlobalName as  ParentGlobalName,
+			p.ItemId as  ParentItemId,
+			p.LocalName as ParentLocalName,
+			p.MadeOf as ParentMadeOf,
+			chu.Name as ParentUnit,
+			ib.ChildAmount
+		FROM ItemParentChildBind ib
+		INNER JOIN Item p ON p.ItemId = ib.ParentId
+		INNER JOIN Item ch ON ch.ItemId = ib.ChildId
+		INNER JOIN Unit up ON p.UnitId = up.UnitId
+		INNER JOIN Unit chu ON chu.UnitId = ch.UnitId
+		WHERE ItemBindId=@ItemBindId;
+	END
+
+--DROP Delete one ItemBind PROCEDURE
+-- --DROP PROCEDURE SP_ItemBind_Delete;
+--Delete ItemBind PROCUDURE 
+CREATE PROCEDURE SP_ItemBind_Delete(@ItemBindId int)
+AS 
+	BEGIN 
+		DELETE FROM ItemParentChildBind WHERE ItemBindId=@ItemBindId
+	END
+
+--DROP Delete one ItemBind PROCEDURE
+-- --DROP PROCEDURE SP_ItemBind_Update;
+--Delete ItemBind PROCUDURE 
+CREATE PROCEDURE SP_ItemBind_Update(
+	@ParentId int,
+	@ChildId int,
+	@ChildAmount decimal,
+	@ItemBindId int
+)
+AS 
+	BEGIN 
+		UPDATE ItemParentChildBind SET 
+			ParentId=@ParentId,
+			ChildId=@ChildId,
+			ChildAmount=@ChildAmount
+		WHERE ItemBindId=@ItemBindId
+	END
+	
+--DROP SELECT ALL ItemBind PROCEDURE
+--DROP PROCEDURE SP_ItemBind_All_Select;
+--SELECT ItemBindS PROCUDURE 
+CREATE PROCEDURE SP_ItemBind_All_Select
+AS 
+	BEGIN 
+		SELECT 
+			ib.ItemBindId,
+			ch.GlobalName as  ChildGlobalName,
+			ch.LocalName as ChildLocalName,
+			ch.MadeOf as ChildMadeOf,
+			chu.Name as ChildUnit,
+			p.GlobalName as  ParentGlobalName,
+			p.LocalName as ParentLocalName,
+			p.MadeOf as ParentMadeOf,
+			chu.Name as ParentUnit,
+			ib.ChildAmount
+		FROM ItemParentChildBind ib
+		INNER JOIN Item p ON p.ItemId = ib.ParentId
+		INNER JOIN Item ch ON ch.ItemId = ib.ChildId
+		INNER JOIN Unit up ON p.UnitId = up.UnitId
+		INNER JOIN Unit chu ON chu.UnitId = ch.UnitId
+	END
+
+exec SP_ItemBind_All_Select;
+---### ItemBind procedures END ###---

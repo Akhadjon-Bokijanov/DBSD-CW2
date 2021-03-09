@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemBindController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemTransactionListController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="DAL\EmployeeManager.cs" />
     <Compile Include="DAL\ItemTransactionManager.cs" />
     <Compile Include="DAL\ItemTransactionListManager.cs" />
+    <Compile Include="DAL\ItemBindManager.cs" />
     <Compile Include="DAL\SupplierManager.cs" />
     <Compile Include="DAL\StoreManager.cs" />
     <Compile Include="DAL\UnitManager.cs" />
@@ -144,7 +146,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemFilter.cs" />
-    <Compile Include="Models\ItemdBind.cs" />
+    <Compile Include="Models\ItemBind.cs" />
     <Compile Include="Models\ItemTransaction.cs" />
     <Compile Include="Models\ItemTransactionList.cs" />
     <Compile Include="Models\Role.cs" />
@@ -228,6 +230,11 @@
     <Content Include="Views\ItemTransactionList\Index.cshtml" />
     <Content Include="Views\ItemTransactionList\Delete.cshtml" />
     <Content Include="Views\ItemTransactionList\Details.cshtml" />
+    <Content Include="Views\ItemBind\Details.cshtml" />
+    <Content Include="Views\ItemBind\Create.cshtml" />
+    <Content Include="Views\ItemBind\Index.cshtml" />
+    <Content Include="Views\ItemBind\Delete.cshtml" />
+    <Content Include="Views\ItemBind\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

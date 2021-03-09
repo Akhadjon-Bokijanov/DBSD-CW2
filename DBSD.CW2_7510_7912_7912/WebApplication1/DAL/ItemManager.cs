@@ -11,7 +11,96 @@ namespace DBSD_CW2_7510_8775_7912.DAL
 {
     public class ItemManager : DbConnection
     {
-        
+
+        public void Delete(int ItemId)
+        {
+            var conn = Connection;
+            try
+            {
+                SqlCommand command = new SqlCommand("SP_Item_Delete", conn);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@ItemId", ItemId);
+
+                conn.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public Item GetOne(int id) {
+            var conn = Connection;
+            Item i = new Item();
+            try
+            {
+                SqlCommand command = new SqlCommand("SP_Item_Select_One", conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ItemId", id);
+
+                conn.Open();
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        i.ItemId = reader.GetInt32(reader.GetOrdinal("ItemId"));
+                        i.LocalName = reader.GetString(reader.GetOrdinal("LocalName"));
+                        i.GlobalName = reader.GetString(reader.GetOrdinal("GlobalName"));
+                        i.ItemUID = reader.GetInt32(reader.GetOrdinal("ItemUID"));
+                        i.UsageStartedAt = reader.IsDBNull(reader.GetOrdinal("UsageStartedAt"))
+                                            ? (DateTime?)null
+                                            : reader.GetDateTime(reader.GetOrdinal("UsageStartedAt"));
+                        i.IsEchangeble = reader.GetBoolean(reader.GetOrdinal("IsEchangeble"));
+                        i.MadeOf = reader.IsDBNull(reader.GetOrdinal("MadeOf"))
+                                    ? "N/A"
+                                    : reader.GetString(reader.GetOrdinal("MadeOf"));
+                        i.TransactionCount = reader.GetInt32(reader.GetOrdinal("TransactionCount"));
+                        i.NumParent = reader.GetInt32(reader.GetOrdinal("NumParent"));
+                        i.AvgAmountUsagePerParent = reader.IsDBNull(reader.GetOrdinal("AvgAmountUsagePerParent"))
+                                                    ? 0
+                                                    : reader.GetDecimal(reader.GetOrdinal("AvgAmountUsagePerParent"));
+                        i.Unit = new Unit()
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("UnitName"))
+                        };
+                        i.Store = new Store()
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("StoreName"))
+                        };
+                        i.Supplier = new Supplier()
+                        {
+                            Name = reader.GetString(reader.GetOrdinal("SupplierName"))
+                        };
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+
+            return i;
+        }
+
+
         public List<Item> GetAll(ItemFilter filter=null)
         {
             List<Item> items = new List<Item>();
@@ -130,6 +219,45 @@ namespace DBSD_CW2_7510_8775_7912.DAL
                 SqlCommand command = new SqlCommand("SP_Item_Add", conn);
                 command.CommandType = CommandType.StoredProcedure;
 
+                command.Parameters.AddWithValue("@GlobalName", item.GlobalName);
+                command.Parameters.AddWithValue("@LocalName", item.LocalName);
+                command.Parameters.AddWithValue("@UnitId", item.Unit.UnitId);
+                command.Parameters.AddWithValue("@StoreId", item.Store.StoreId);
+                command.Parameters.AddWithValue("@MadeOf", item.MadeOf);
+                command.Parameters.AddWithValue("@SupplierId", item.Supplier.SupplierId);
+                command.Parameters.AddWithValue("@UsageStartedAt", (object)item.UsageStartedAt ?? DBNull.Value);
+                command.Parameters.AddWithValue("@Image", (object)item.Image ?? SqlBinary.Null);
+                command.Parameters.AddWithValue("@IsEchangeble", item.IsEchangeble);
+                command.Parameters.AddWithValue("@ItemUID", item.ItemUID);
+
+                conn.Open();
+                command.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+
+        }
+
+        public void Update(int ItemId, Item item)
+        {
+            var conn = Connection;
+            try
+            {
+
+                SqlCommand command = new SqlCommand("SP_Item_Update", conn);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@ItemId", ItemId);
                 command.Parameters.AddWithValue("@GlobalName", item.GlobalName);
                 command.Parameters.AddWithValue("@LocalName", item.LocalName);
                 command.Parameters.AddWithValue("@UnitId", item.Unit.UnitId);
