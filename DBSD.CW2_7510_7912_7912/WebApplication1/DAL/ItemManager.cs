@@ -12,7 +12,7 @@ namespace DBSD_CW2_7510_8775_7912.DAL
     public class ItemManager : DbConnection
     {
         
-        public List<Item> GetAll(ItemFilter filter)
+        public List<Item> GetAll(ItemFilter filter=null)
         {
             List<Item> items = new List<Item>();
             var conn = Connection;

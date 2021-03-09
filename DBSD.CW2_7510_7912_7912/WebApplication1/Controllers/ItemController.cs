@@ -34,6 +34,15 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: Item/Create
         public ActionResult Create()
         {
+            var i = new UnitManager();
+            ViewBag.Units = new SelectList(i.GetAll(), "UnitId", "Name");
+
+            var sup = new SupplierManager();
+            ViewBag.Suppliers = new SelectList(sup.GetAll(), "SupplierId", "Name");
+
+            var st = new StoreManager();
+            ViewBag.Stores = new SelectList(st.GetAll(), "StoreId", "Name");
+
             return View();
         }
 
@@ -70,7 +79,15 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         public ActionResult Edit(int id)
         {
             Item b = new Item();
-            
+            var i = new UnitManager();
+            ViewBag.Units = new SelectList(i.GetAll(), "UnitId", "Name");
+
+            var sup = new SupplierManager();
+            ViewBag.Suppliers = new SelectList(sup.GetAll(), "SupplierId", "Name");
+
+            var st = new StoreManager();
+            ViewBag.Stores = new SelectList(st.GetAll(), "StoreId", "Name");
+
             return View(b);
         }
 

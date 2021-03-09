@@ -1,27 +1,56 @@
 ﻿@model IEnumerable<DBSD_CW2_7510_8775_7912.Models.ItemTransactionList>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="margin-top: 10px">
+    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"})
 </p>
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Item.LocalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.GlobalName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Unit.Name)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemTransaction.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemTransaction.Operation)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ItemTransactionListId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ItemTransactionListId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ItemTransactionListId })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(model => item.Item.LocalName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Item.GlobalName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Item.Unit.Name)
+    <td>
+        @Html.DisplayFor(modelItem => item.Amount)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ItemTransaction.Notes)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ItemTransaction.Operation)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.ItemTransactionListId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.ItemTransactionListId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.ItemTransactionListId })
+    </td>
+</tr>
 }
 
 </table>

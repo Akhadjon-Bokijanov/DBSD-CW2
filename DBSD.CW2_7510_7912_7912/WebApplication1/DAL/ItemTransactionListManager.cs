@@ -16,7 +16,7 @@ namespace DBSD_CW2_7510_8775_7912.DAL
             var conn = Connection;
             try
             {
-                SqlCommand command = new SqlCommand("SP_ ItemTransactionList_Delete", conn);
+                SqlCommand command = new SqlCommand("SP_ItemTransactionList_Delete", conn);
                 command.CommandType = CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@ItemTransactionListId",  ItemTransactionListId);
@@ -42,11 +42,11 @@ namespace DBSD_CW2_7510_8775_7912.DAL
             var conn = Connection;
             try
             {
-                SqlCommand command = new SqlCommand("SP_ ItemTransactionList_Update", conn);
+                SqlCommand command = new SqlCommand("SP_ItemTransactionList_Update", conn);
                 command.CommandType = CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@ItemTransactionListId",  ItemTransactionListId);
-                command.Parameters.AddWithValue("@Name", ItemTransactionList.Amount);
+                command.Parameters.AddWithValue("@Amount", ItemTransactionList.Amount);
                 command.Parameters.AddWithValue("@ItemTransactionId", ItemTransactionList.ItemTransaction.ItemTransactionId);
                 command.Parameters.AddWithValue("@ItemId", ItemTransactionList.Item.ItemId);
 
@@ -71,9 +71,9 @@ namespace DBSD_CW2_7510_8775_7912.DAL
             var conn = Connection;
             try
             {
-                SqlCommand command = new SqlCommand("SP_ ItemTransactionList_One_Select", conn);
+                SqlCommand command = new SqlCommand("SP_ItemTransactionList_One_Select", conn);
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@ ItemTransactionListId",  ItemTransactionListId);
+                command.Parameters.AddWithValue("@ItemTransactionListId",  ItemTransactionListId);
                 conn.Open();
                  ItemTransactionList r = new  ItemTransactionList();
                 using (var reader = command.ExecuteReader())
@@ -81,10 +81,10 @@ namespace DBSD_CW2_7510_8775_7912.DAL
                     while (reader.Read())
                     {
                         r. ItemTransactionListId = reader.GetInt32(reader.GetOrdinal("ItemTransactionListId"));
-                        r.Amount = reader.GetDecimal(reader.GetOrdinal("Amount"));
+                        r.Amount = Convert.ToDecimal(reader.GetValue(reader.GetOrdinal("Amount")));
                         r.Item = new Item()
                         {
-                            ItemId = reader.GetInt32(reader.GetOrdinal("Amount")),
+                            ItemId = reader.GetInt32(reader.GetOrdinal("ItemId")),
                             LocalName = reader.GetString(reader.GetOrdinal("LocalName")),
                             GlobalName = reader.GetString(reader.GetOrdinal("GlobalName")),
                             Unit = new Unit()
@@ -114,10 +114,10 @@ namespace DBSD_CW2_7510_8775_7912.DAL
             }
         }
 
-        public List< ItemTransactionList> GetAll()
+        public List<ItemTransactionList> GetAll()
         {
             var conn = Connection;
-            List< ItemTransactionList>  ItemTransactionLists = new List< ItemTransactionList>();
+            List<ItemTransactionList>  ItemTransactionLists = new List<ItemTransactionList>();
             try
             {
                 SqlCommand command = new SqlCommand("SP_ItemTransactionList_All_Select", conn);
@@ -125,15 +125,15 @@ namespace DBSD_CW2_7510_8775_7912.DAL
                 conn.Open();
                 using(var reader = command.ExecuteReader())
                 {
-                    while (reader.Read())
+                    while(reader.Read())
                     {
                         ItemTransactionList r = new ItemTransactionList()
                         {
-                            ItemTransactionListId = reader.GetInt32(reader.GetOrdinal(" ItemTransactionListId")),
-                            Amount = reader.GetDecimal(reader.GetOrdinal("Amount")),
+                            ItemTransactionListId = reader.GetInt32(reader.GetOrdinal("ItemTransactionListId")),
+                            Amount = Convert.ToDecimal(reader.GetValue(reader.GetOrdinal("Amount"))),
                             Item = new Item()
                             {
-                                ItemId = reader.GetInt32(reader.GetOrdinal("Amount")),
+                                ItemId = reader.GetInt32(reader.GetOrdinal("itemId")),
                                 LocalName = reader.GetString(reader.GetOrdinal("LocalName")),
                                 GlobalName = reader.GetString(reader.GetOrdinal("GlobalName")),
                                 Unit = new Unit()
@@ -171,10 +171,11 @@ namespace DBSD_CW2_7510_8775_7912.DAL
             var conn = Connection;
             try
             {
-                SqlCommand command = new SqlCommand("SP_ ItemTransactionList_Add", conn);
+                SqlCommand command = new SqlCommand("SP_ItemTransactionList_Add", conn);
+                
                 command.CommandType = CommandType.StoredProcedure;
 
-                command.Parameters.AddWithValue("@Name", ItemTransactionList.Amount);
+                command.Parameters.AddWithValue("@Amount", ItemTransactionList.Amount);
                 command.Parameters.AddWithValue("@ItemTransactionId", ItemTransactionList.ItemTransaction.ItemTransactionId);
                 command.Parameters.AddWithValue("@ItemId", ItemTransactionList.Item.ItemId);
 

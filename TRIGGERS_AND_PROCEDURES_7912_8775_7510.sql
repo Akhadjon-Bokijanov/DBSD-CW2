@@ -46,7 +46,7 @@ Exec SP_ITEM_ALL_SELECT @SortIndex=5, @SortCase='DESC'
 
 
 --DROP SP_ITEM_ALL_SELECT
--- --DROP PROCEDURE SP_ITEM_ALL_SELECT;
+DROP PROCEDURE SP_ITEM_ALL_SELECT;
 
 --CREATE PROCUDERE FOR SELECTING ITEMS
 --JOINING 5 TABLES
@@ -502,9 +502,11 @@ AS
 		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName, it.Notes, it.Operation FROM ItemTransactionList tl
 		INNER JOIN Item i ON i.ItemId=tl.ItemId
 		INNER JOIN Unit u ON i.UnitId = u.UnitId
-		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionListId 
+		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionId 
 		WHERE ItemTransactionListId=@ItemTransactionListId;
 	END
+
+exec SP_ItemTransactionList_One_Select @ItemTransactionListId=1
 
 --DROP Delete one ItemTransactionList PROCEDURE
 -- --DROP PROCEDURE SP_ItemTransactionList_Delete;
@@ -542,7 +544,7 @@ AS
 		SELECT tl.*, i.LocalName, i.GlobalName, u.Name as UnitName, it.Notes, it.Operation FROM ItemTransactionList tl
 		INNER JOIN Item i ON i.ItemId=tl.ItemId
 		INNER JOIN Unit u ON i.UnitId = u.UnitId
-		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionListId 
+		INNER JOIN ItemTransaction it ON it.ItemTransactionId = tl.ItemTransactionId 
 		;
 	END
 

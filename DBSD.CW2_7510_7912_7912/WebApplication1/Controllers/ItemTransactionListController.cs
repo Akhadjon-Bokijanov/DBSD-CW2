@@ -28,6 +28,15 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: ItemTransactionList/Create
         public ActionResult Create()
         {
+            var a = new ItemTransactionManager();
+            ViewBag.Transactions = new SelectList(a.GetAll(), "ItemTransactionId", "Notes");
+
+            var b = new ItemManager();
+            ViewBag.Items = new SelectList(b.GetAll(new ItemFilter() {
+                SortIndex = 2,
+                SortCase = "DESC"
+            }), "ItemId", "LocalName"); 
+
             return View();
         }
 
@@ -45,8 +54,9 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                throw ex;
                 return View();
             }
         }
@@ -55,6 +65,16 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         public ActionResult Edit(int id)
         {
             var tl = new ItemTransactionListManager();
+
+            var a = new ItemTransactionManager();
+            ViewBag.Transactions = new SelectList(a.GetAll(), "ItemTransactionId", "Notes");
+
+            var b = new ItemManager();
+            ViewBag.Items = new SelectList(b.GetAll(new ItemFilter()
+            {
+                SortIndex = 2,
+                SortCase = "DESC"
+            }), "ItemId", "LocalName");
 
             return View(tl.GetOne(id));
         }
