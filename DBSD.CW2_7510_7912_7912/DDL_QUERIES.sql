@@ -1,29 +1,4 @@
---DBSD CW2 7510 8775 7912 
-use [DBSD_CW2_7510_8775_7912] EXEC sp_changedbowner 'sa';
-
---DELETE TABLES IN ORDER
---1
-DROP TABLE IF EXISTS [ItemTransactionList]
---2
-DROP TABLE IF EXISTS [ItemTransaction]
---3
-DROP TABLE IF EXISTS [ItemParentChildBind]
---4
-DROP TABLE IF EXISTS [Item];
---5
-DROP TABLE IF EXISTS [Supplier];
---6
-DROP TABLE IF EXISTS [Store];
---7
-DROP TABLE IF EXISTS [Employee];
---8
-DROP TABLE IF EXISTS [Role];
---9
-DROP TABLE IF EXISTS [Unit];
-
-
-
---1 CREATE Unit TABLE
+﻿--1 CREATE Unit TABLE
 DROP TABLE IF EXISTS [Unit];
 CREATE TABLE Unit (
   [UnitId] int NOT NULL IDENTITY,

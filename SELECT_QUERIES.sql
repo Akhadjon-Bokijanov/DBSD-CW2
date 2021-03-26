@@ -9,7 +9,7 @@ SELECT
 	i.*, 
 	st.Name as "StoreName", 
 	sup.Name as "SupplierName",
-	COUNT(trl.TransactionListId) OVER(PARTITION BY i.ItemId) as "TransactionCount",
+	COUNT(trl.ItemTransactionListId) OVER(PARTITION BY i.ItemId) as "TransactionCount",
 	COUNT(ipc.ChildId) OVER (PARTITION BY i.ItemId) as "NumParent",
 	AVG(ipc.ChildAmount) OVER (PARTITION BY i.ItemId) as "AvgAmountUsagePerParent"
 FROM Item i
@@ -34,4 +34,6 @@ ORDER BY
 	SupplierName DESC,
 	StoreName DESC,
 	ItemUID DESC
+
+SELECT * FROM disallowed_dates;
 	

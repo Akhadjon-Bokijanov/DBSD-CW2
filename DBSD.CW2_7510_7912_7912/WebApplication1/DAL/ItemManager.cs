@@ -148,7 +148,7 @@ namespace DBSD_CW2_7510_8775_7912.DAL
                 if(filter.PageSize > 0 && filter.PageNumber > 0)
                 {
                     command.Parameters.AddWithValue("@PageSize", filter.PageSize);
-                    command.Parameters.AddWithValue("@PageNumber", filter.PageNumber);
+                    command.Parameters.AddWithValue("@PageNumber", filter.PageNumber-1);
                 }
                 
                 conn.Open();
