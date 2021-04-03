@@ -68,6 +68,9 @@ namespace DBSD_CW2_7510_8775_7912.DAL
                         i.AvgAmountUsagePerParent = reader.IsDBNull(reader.GetOrdinal("AvgAmountUsagePerParent"))
                                                     ? 0
                                                     : reader.GetDecimal(reader.GetOrdinal("AvgAmountUsagePerParent"));
+                        i.Image = reader.IsDBNull(reader.GetOrdinal("Image"))
+                            ? null
+                            : (byte[])reader["Image"];
                         i.Unit = new Unit()
                         {
                             Name = reader.GetString(reader.GetOrdinal("UnitName"))

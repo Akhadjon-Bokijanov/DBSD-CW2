@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Serialization;
+using CsvHelper;
 using DBSD_CW2_7510_8775_7912.DAL;
 using DBSD_CW2_7510_8775_7912.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace DBSD_CW2_7510_8775_7912.Controllers
 {
@@ -14,6 +19,8 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: Item
         public ActionResult Index(ItemFilter filter)
         {
+            filter.PageNumber = filter.PageNumber ?? 1;
+            filter.PageSize = filter.PageSize ?? 5;
 
             List<Item> a = new ItemManager().GetAll(filter);
 
@@ -76,7 +83,7 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         }
 
         // GET: Item/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, HttpPostedFileBase img)
         {
             var b = new ItemManager();
 
@@ -108,7 +115,6 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
                         collection.Image = memory.ToArray();
                     }
                 }
-
                 var b = new ItemManager();
 
                 b.Update(id, collection);
@@ -124,7 +130,8 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         // GET: Item/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var b = new ItemManager();
+            return View(b.GetOne(id));
         }
 
         // POST: Item/Delete/5
@@ -134,13 +141,109 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
             try
             {
                 // TODO: Add delete logic here
+                var b = new ItemManager();
+                b.Delete(id);
+
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                throw ex;
                 return View();
             }
         }
+    
+        public FileResult GetItemPhoto(int id)
+        {
+            var i = new ItemManager();
+            Item item = i.GetOne(id);
+            if(item != null && item.Image?.Length > 0)
+            {
+                return File(item.Image, "image/jpeg", item.ItemId + ".jpg");
+            }
+            return null;
+        }
+
+        //Get ?LocalName=Local+name&GlobalName=&ItemUID=&MadeOf=&PageNumber=&PageSize=&SupplierName=&StoreName=&SortIndex=1&SortCase=ASC
+        public ActionResult ExportJson(ItemFilter filter)
+        {
+            var i = new ItemManager();
+            var ItemList = i.GetAll(filter);
+            var memeory = new MemoryStream();
+            var writer = new StreamWriter(memeory);
+            var serializer = new JsonSerializer();
+
+            serializer.Serialize(writer, ItemList);
+            writer.Flush();
+            memeory.Position = 0;
+            if (memeory != null)
+                return File(memeory, "application/json", $"export_{DateTime.Now}.json");
+            return null;
+        }
+
+
+        public ActionResult ExportXml(ItemFilter filter)
+        {
+            var i = new ItemManager();
+            var ItemList = i.GetAll(filter);
+            var memeory = new MemoryStream();
+            var writer = new StreamWriter(memeory);
+            var serializer = new XmlSerializer(typeof(List<Item>));
+
+            serializer.Serialize(writer, ItemList);
+            writer.Flush();
+            memeory.Position = 0;
+            if (memeory != null)
+                return File(memeory, "application/xml", $"export_{DateTime.Now}.xml");
+            return null;
+        }
+
+        public ActionResult ExportCsv(ItemFilter filter)
+        {
+            var i = new ItemManager();
+            var ItemList = i.GetAll(filter);
+            var memeory = new MemoryStream();
+            var writer = new StreamWriter(memeory);
+            var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+            csvWriter.WriteRecords(ItemList);
+            
+            writer.Flush();
+            memeory.Position = 0;
+            if (memeory != null)
+                return File(memeory, "application/csv", $"export_{DateTime.Now}.csv");
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult ImportJson(IFormFile jsonFile)
+        {
+            try
+            {
+                if(jsonFile != null)
+                {
+                    var i = new ItemManager();
+                    throw new Exception("Hi");
+                    var stream = jsonFile.OpenReadStream();
+                    var reader = new StreamReader(stream);
+                    var serializer = new JsonSerializer();
+
+                    var items = (List<Item>)serializer.Deserialize(reader, typeof(List<Item>));
+
+                    foreach(Item item in items)
+                    {
+                        i.Create(item);
+                    }
+
+                }
+                
+                return RedirectToAction("Index");
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

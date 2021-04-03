@@ -1,0 +1,24 @@
+[
+    {
+        "GlobalName": "Json import global name",
+        "LocalName": "Json import local name",
+        "ItemUID": 1031010139,
+        "UsageStartedAt": "2021-03-03T00:00:00",
+        "IsExchangable": true,
+        "UnitId": 1,
+        "StoreId": 1,
+        "MadeOf": "wood",
+        "SupplierId": 1
+    },
+    {
+        "GlobalName": "Json import global name 2",
+        "LocalName": "Json import local name 2",
+        "ItemUID": 1031010140,
+        "UsageStartedAt": "2021-03-03T00:00:00",
+        "IsExchangable": true,
+        "UnitId": 1,
+        "StoreId": 1,
+        "MadeOf": "steel",
+        "SupplierId": 1
+    }
+]
