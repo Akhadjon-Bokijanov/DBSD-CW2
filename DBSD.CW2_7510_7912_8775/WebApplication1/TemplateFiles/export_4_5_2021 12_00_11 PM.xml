@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Item>
+    <ItemId>4</ItemId>
+    <LocalName>Xml import 1</LocalName>
+    <GlobalName>Xml import 2</GlobalName>
+    <ItemUID>512101010</ItemUID>
+    <UsageStartedAt>2022-04-03T00:00:00</UsageStartedAt>
+    <IsEchangeble>false</IsEchangeble>
+    <MadeOf>Plastic</MadeOf>
+    <TransactionCount>0</TransactionCount>
+    <NumParent>0</NumParent>
+    <AvgAmountUsagePerParent>0</AvgAmountUsagePerParent>
+    <Unit>
+      <UnitId>4</UnitId>
+      <Name>Kilogram</Name>
+    </Unit>
+    <Store>
+      <StoreId>4</StoreId>
+      <Name>Store A</Name>
+      <Square xsi:nil="true" />
+    </Store>
+    <Supplier>
+      <SupplierId>4</SupplierId>
+      <Name>Supllier A</Name>
+    </Supplier>
+    <ChildAmount>0</ChildAmount>
+  </Item>
+  <Item>
+    <ItemId>10</ItemId>
+    <LocalName>XML import item 2</LocalName>
+    <GlobalName>XML import Global Name 3</GlobalName>
+    <ItemUID>3974010</ItemUID>
+    <UsageStartedAt>2022-04-03T00:00:00</UsageStartedAt>
+    <IsEchangeble>false</IsEchangeble>
+    <MadeOf>Metal</MadeOf>
+    <TransactionCount>0</TransactionCount>
+    <NumParent>0</NumParent>
+    <AvgAmountUsagePerParent>0</AvgAmountUsagePerParent>
+    <Unit>
+      <UnitId>2</UnitId>
+      <Name>Kilogram</Name>
+    </Unit>
+    <Store>
+      <StoreId>4</StoreId>
+      <Name>Store A</Name>
+      <Square xsi:nil="true" />
+    </Store>
+    <Supplier>
+      <SupplierId>3</SupplierId>
+      <Name>Supllier A</Name>
+    </Supplier>
+    <ChildAmount>0</ChildAmount>
+  </Item>
+</ArrayOfItem>

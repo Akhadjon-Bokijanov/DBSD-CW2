@@ -303,5 +303,52 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult ImportXml(HttpPostedFileBase xmlFile)
+        {
+            try
+            {
+
+                if (xmlFile?.ContentLength > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        xmlFile.InputStream.CopyTo(stream);
+
+                        byte[] fileBytes = stream.ToArray();
+
+                        using (var byteStrem = new MemoryStream(fileBytes))
+                        {
+                            using (var reader = new StreamReader(byteStrem))
+                            {
+                                var serializer = new XmlSerializer(typeof(List<Item>));
+                                var items = (List<Item>)serializer.Deserialize(reader);
+                                var i = new ItemManager();
+                                foreach (Item item in items)
+                                {
+                                    try
+                                    {
+                                        i.Create(item);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw ex;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
