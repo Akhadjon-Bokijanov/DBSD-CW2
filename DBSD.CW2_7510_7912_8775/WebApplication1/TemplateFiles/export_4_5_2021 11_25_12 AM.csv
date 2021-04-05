@@ -1,0 +1,3 @@
+ItemId,LocalName,GlobalName,ItemUID,UsageStartedAt,IsEchangeble,Image,MadeOf,TransactionCount,NumParent,AvgAmountUsagePerParent,UnitId,ShortName,Name,StoreId,Name,Square,EmployeeId,FullName,DoB,Salary,Address,Password,RoleId,Name,SupplierId,Name,Address,ChildAmount
+7,imported item 1 at validation,item global 1,52532,3/3/2022 0:00,TRUE,,Metal,0,0,0,1,,Kilogram,1,Store A,,1,,,,,,1,,1,Supllier A,,0
+4,item 2,Global Name 3,974010,4/3/2022 0:00,FALSE,,Metal,0,0,0,1,,Kilogram,1,Store A,,1,,,,,,1,,1,Supllier A,,0

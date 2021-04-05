@@ -1,0 +1,66 @@
+[
+    {
+        "ItemId": 7,
+        "LocalName": "Json import 1",
+        "GlobalName": "Json import 2",
+        "ItemUID": 20934723,
+        "UsageStartedAt": "2022-03-03T00:00:00",
+        "IsEchangeble": true,
+        "Image": null,
+        "MadeOf": "Metal",
+        "TransactionCount": 0,
+        "NumParent": 0,
+        "AvgAmountUsagePerParent": 0.0,
+        "Unit": {
+            "UnitId": 2,
+            "ShortName": null,
+            "Name": "Kilogram"
+        },
+        "Store": {
+            "StoreId": 2,
+            "Name": "Store A",
+            "Square": null,
+            "Employee": null
+        },
+        "Supplier": {
+            "SupplierId": 2,
+            "Name": "Supllier A",
+            "Address": null
+        },
+        "Parents": null,
+        "Childeren": null,
+        "ChildAmount": 0.0
+    },
+    {
+        "ItemId": 9,
+        "LocalName": "Json import 2",
+        "GlobalName": "Json import 2",
+        "ItemUID": 643781,
+        "UsageStartedAt": "2022-03-03T00:00:00",
+        "IsEchangeble": true,
+        "Image": null,
+        "MadeOf": "Metal",
+        "TransactionCount": 0,
+        "NumParent": 0,
+        "AvgAmountUsagePerParent": 0.0,
+        "Unit": {
+            "UnitId": 3,
+            "ShortName": null,
+            "Name": "Kilogram"
+        },
+        "Store": {
+            "StoreId": 3,
+            "Name": "Store A",
+            "Square": null,
+            "Employee": null
+        },
+        "Supplier": {
+            "SupplierId": 3,
+            "Name": "Supllier A",
+            "Address": null
+        },
+        "Parents": null,
+        "Childeren": null,
+        "ChildAmount": 0.0
+    }    
+]

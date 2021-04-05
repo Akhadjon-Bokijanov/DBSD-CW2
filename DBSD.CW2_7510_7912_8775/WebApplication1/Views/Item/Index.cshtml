@@ -66,8 +66,8 @@
 <div class="row" style="margin-bottom: 20px">
     <!--JSON file actions-->
     <div class="col-md-3">
-        <form action="/Item/ImportJson" enctype="multipart/form-data" method="post">
-            
+        @using (Html.BeginForm("ImportJson", "Item", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
             <div>
                 <input class="form-control" name="jsonFile" type="file" />
             </div>
@@ -81,25 +81,27 @@
                     Export JSON
                 </a>
             </div>
-        </form>
+        }
+
+
     </div>
 
     <!--CVS file actions-->
     <div class="col-md-3">
-        <form action="/Item/ImportCvs" enctype="multipart/form-data" method="post">
+        <form action="/Item/ImportCsv" enctype="multipart/form-data" method="post">
             <div>
-                <input class="form-control" name="CvsFile" type="file" />
+                <input class="form-control" name="csvFile" type="file" />
             </div>
             <div class="btn-group" style="margin-top: 5px">
-                <button style="width: 130px" class="btn btn-info btn-sm" type="submit">Import CVS</button>
+                <button style="width: 130px" class="btn btn-info btn-sm" type="submit">Import CSV</button>
                 <a 
                    style="width: 130px" 
                    download 
                    target="_blank" 
                    class="btn btn-sm btn-warning" 
-                   href="/Item/ExportCvs?LocalName=@ViewBag.Filter.LocalName&GlobalName=@ViewBag.Filter.GlobalName&ItemUID=@ViewBag.Filter.ItemUID&MadeOf=@ViewBag.Filter.MadeOf&PageNumber=@ViewBag.Filter.PageNumber&PageSize=@ViewBag.Filter.PageSize&SupplierName=@ViewBag.Filter.SupplierName&StoreName=@ViewBag.Filter.StoreName&SortIndex=@ViewBag.Filter.SortIndex&SortCase=@ViewBag.Filter.SortCase"
+                   href="/Item/ExportCsv?LocalName=@ViewBag.Filter.LocalName&GlobalName=@ViewBag.Filter.GlobalName&ItemUID=@ViewBag.Filter.ItemUID&MadeOf=@ViewBag.Filter.MadeOf&PageNumber=@ViewBag.Filter.PageNumber&PageSize=@ViewBag.Filter.PageSize&SupplierName=@ViewBag.Filter.SupplierName&StoreName=@ViewBag.Filter.StoreName&SortIndex=@ViewBag.Filter.SortIndex&SortCase=@ViewBag.Filter.SortCase"
                    >
-                Export CVS
+                Export CSV
                 </a>
             </div>
         </form>

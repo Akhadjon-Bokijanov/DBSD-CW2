@@ -217,27 +217,43 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
         }
 
         [HttpPost]
-        public ActionResult ImportJson(IFormFile jsonFile)
+        public ActionResult ImportJson(HttpPostedFileBase jsonFile)
         {
             try
             {
-                if(jsonFile != null)
+                
+                if(jsonFile?.ContentLength > 0)
                 {
-                    var i = new ItemManager();
-                    throw new Exception("Hi");
-                    var stream = jsonFile.OpenReadStream();
-                    var reader = new StreamReader(stream);
-                    var serializer = new JsonSerializer();
-
-                    var items = (List<Item>)serializer.Deserialize(reader, typeof(List<Item>));
-
-                    foreach(Item item in items)
+                    using (var stream = new MemoryStream())
                     {
-                        i.Create(item);
+                        jsonFile.InputStream.CopyTo(stream);
+
+                        byte[] fileBytes = stream.ToArray();
+
+                        using (var byteStrem = new MemoryStream(fileBytes))
+                        {
+                            using (var reader = new StreamReader(byteStrem))
+                            {
+                                var serializer = new JsonSerializer();
+                                var items = (List<Item>)serializer.Deserialize(reader, typeof(List<Item>));
+                                var i = new ItemManager();
+                                foreach (Item item in items)
+                                {
+                                    try
+                                    {
+                                        i.Create(item);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw ex;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                 }
-                
+
                 return RedirectToAction("Index");
             }catch(Exception ex)
             {
@@ -245,5 +261,47 @@ namespace DBSD_CW2_7510_8775_7912.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult ImportCsv(HttpPostedFileBase csvFile)
+        {
+            var items = new List<Item>();
+            if (csvFile?.ContentLength > 0)
+            {
+
+                using (var stream = new MemoryStream())
+                {
+                    csvFile.InputStream.CopyTo(stream);
+                    byte[] fileBytes = stream.ToArray();
+
+                    using(var byteStream = new MemoryStream(fileBytes))
+                        using(var reader = new StreamReader(byteStream))
+                        using(var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        var itemList = csv.GetRecords<Item>();
+                        if (itemList != null)
+                        {
+                            var im = new ItemManager();
+                            foreach(var item in itemList)
+                            {
+                                try
+                                {
+                                    im.Create(item);
+                                }catch(Exception ex)
+                                {
+                                    throw ex;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                
+            }
+            else
+            {
+                ModelState.AddModelError("", "Empty file");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
